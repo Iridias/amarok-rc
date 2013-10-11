@@ -46,6 +46,10 @@
 					<artifactId>httpclient</artifactId>
 					<groupId>org.apache.httpcomponents</groupId>
 				</exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
 			</exclusions>
 		</dependency>
 	</dependencies>
@@ -67,6 +71,7 @@
 				<artifactId>android-maven-plugin</artifactId>
 				<configuration>
 					<sdk>
+                        <path>${env.ANDROID_SDK_HOME}</path>
 						<platform>16</platform>
 					</sdk>
 				</configuration>
