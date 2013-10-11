@@ -7,6 +7,9 @@ import de.mgd.amarok.remote.service.PlayerService.PlayerState;
 import de.mgd.amarok.remote.core.AppEngine;
 import de.mgd.amarok.remote.core.factory.ServiceFactory;
 import de.mgd.amarok.remote.core.util.HelperUtil;
+
+import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,15 +28,26 @@ public class PlayerFragment extends AbstractBaseFragment implements BaseFragment
 	private PlayerState previousState = PlayerState.STOPPED;
 	private Track previousTrack = null;
 	private PlayerService playerService;
+	private Activity activity;
 	
 	public PlayerFragment() {
 		super();
 		playerService = ServiceFactory.getPlayerService();
 	}
-	
+
+	@Override
+	public void onAttach(Activity a) {
+		super.onAttach(a);
+		activity = a;
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.player_fragment, container, false);
+		if(activity == null || activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			view = inflater.inflate(R.layout.player_fragment_portrait, container, false);
+		} else {
+			view = inflater.inflate(R.layout.player_fragment, container, false);
+		}
 		registerListeners(view);
 		return view;
 	}
