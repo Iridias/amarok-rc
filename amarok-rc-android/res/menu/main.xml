@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:icon="@drawable/preferences"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_settings"/>
+
+    <item
+        android:id="@+id/action_playlist"
+        android:orderInCategory="90"
+        android:icon="@drawable/playlist"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_playlist"/>
+    
+    <item
+        android:id="@+id/action_collection"
+        android:orderInCategory="90"
+        android:icon="@drawable/collection"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_collection"/>
+    
+</menu>

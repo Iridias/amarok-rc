@@ -1,0 +1,4 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+	<item type="id" name="TAGKEY_PLAYBUTTON_STATE">1</item>
+	<item type="id" name="TAGKEY_COLL_ARTIST">2</item>
+</resources>
