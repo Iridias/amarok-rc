@@ -55,7 +55,8 @@
 	        android:id="@+id/trackArtistTitleWrapper"
 	        android:layout_gravity="left"
 	        android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
+			android:layout_height="wrap_content"
+            android:layout_marginRight="45dp"
 	        android:orientation="horizontal">
 	        <TextView
 				android:id="@+id/trackNumber"
@@ -78,7 +79,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginRight="2dp"
-				android:text="album title"
+				android:text="album title 2343242343"
 				android:textStyle="bold"
 				android:textSize="14sp" >
 			</TextView>
@@ -95,7 +96,7 @@
 				android:id="@+id/trackArtist"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="album artist"
+				android:text="album artist 123 45678 768 786"
 				android:textStyle="bold|italic"
 				android:textSize="12sp" >
 			</TextView>
