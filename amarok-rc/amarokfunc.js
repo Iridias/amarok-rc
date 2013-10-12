@@ -410,16 +410,32 @@ cmdCollectionAddAlbum = function(path) {
 	
 	var currentLastEntry = Amarok.Playlist.totalTrackCount();
 	
-	var query = "select d.lastmountpoint, u.rpath from urls u, devices d, tracks t, albums a " +
-			"where d.id = u.deviceid and t.album = a.id and u.id = t.url and a.id = " + albumId + " " +
+	var query = "select u.uniqueid from urls u, tracks t, albums a " +
+			"where t.album = a.id and u.id = t.url and a.id = " + albumId + " " +
 			"order by t.discnumber, t.tracknumber, t.title";
 	
 	var result = Amarok.Collection.query(query);
 	for(i = 0; i < result.length; i++) {
-		var mountpoint = result[i++];
-		var remainingPath = result[i];
-		
-		Amarok.Playlist.addMedia(new QUrl('file:///' + mountpoint + '/' + remainingPath));
+		Amarok.Playlist.addMedia(new QUrl(result[i]));
+	}
+	
+	response = new HandlerResponse();
+    response.append(currentLastEntry.toString());
+    return response
+}
+
+cmdCollectionAddTrack = function(path) {
+	trackId = parseInt(path.substring(path.lastIndexOf("/")+1));
+	
+	var currentLastEntry = Amarok.Playlist.totalTrackCount();
+	
+	var query = "select u.uniqueid from urls u, tracks t " +
+			"where u.id = t.url and t.id = " + trackId + " " +
+			"order by t.discnumber, t.tracknumber, t.title";
+	
+	var result = Amarok.Collection.query(query);
+	for(i = 0; i < result.length; i++) {
+		Amarok.Playlist.addMedia(new QUrl(result[i]));
 	}
 	
 	response = new HandlerResponse();
