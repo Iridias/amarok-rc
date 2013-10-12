@@ -13,6 +13,8 @@ import de.mgd.amarok.remote.core.factory.ServiceFactory;
 import de.mgd.amarok.remote.core.util.HelperUtil;
 import de.mgd.amarok.remote.model.Album;
 import de.mgd.amarok.remote.service.CollectionService;
+import de.mgd.amarok.remote.service.PlaylistService;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -31,6 +33,7 @@ public class CollectionAlbumEntryAdapter extends ArrayAdapter<Album> {
 	private Context mContext;
 	private List<Album> data = new ArrayList<Album>();
 	private CollectionService collectionService = ServiceFactory.getCollectionService();
+	private PlaylistService playlistService = ServiceFactory.getPlaylistService();
 	private Handler handler = new Handler();
 	
 	public CollectionAlbumEntryAdapter(Context context, int resource) {
@@ -57,7 +60,15 @@ public class CollectionAlbumEntryAdapter extends ArrayAdapter<Album> {
 		TextView albumName = (TextView) v.findViewById(R.id.albumTitle);
 		LinearLayout tracks = (LinearLayout) v.findViewById(R.id.albumTrackList);
 		final ImageView cover = (ImageView) v.findViewById(R.id.albumCover);
-		
+		final ImageView appendAlbumButton = (ImageView) v.findViewById(R.id.addToPlaylist);
+
+		appendAlbumButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				appendAlbumToPlaylist(album);
+			}
+		});
+
 		albumName.setText(album.getName());
 		if(tracks.getChildCount() <= 0) {
 			tracks.setVisibility(View.GONE); 
@@ -67,7 +78,17 @@ public class CollectionAlbumEntryAdapter extends ArrayAdapter<Album> {
 		
 		return v;
 	}
-	
+
+	private void appendAlbumToPlaylist(final Album album) {
+		HelperUtil.runInBackground(new Runnable() {
+			@Override
+			public void run() {
+				int index = collectionService.addAlbumToPlaylist(album);
+				//playlistService.playTrackAtIndex(index); // TODO
+			}
+		});
+	}
+
 	private void applyCoverImage(final ImageView cover, final Album album) {
 		if(album.getImageId() < 0) {
 			cover.setImageDrawable(AppEngine.getNoCover());

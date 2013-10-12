@@ -6,19 +6,24 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import de.mgd.amarok.remote.R;
+import de.mgd.amarok.remote.core.factory.ServiceFactory;
 import de.mgd.amarok.remote.core.util.HelperUtil;
 import de.mgd.amarok.remote.model.Track;
+import de.mgd.amarok.remote.service.CollectionService;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class CollectionTrackEntryAdapter extends ArrayAdapter<Track> {
 
 	private Context mContext;
 	private List<Track> data = new ArrayList<Track>();
+	private CollectionService collectionService = ServiceFactory.getCollectionService();
 	
 	public CollectionTrackEntryAdapter(Context context, int resource) {
 		super(context, resource);
@@ -54,15 +59,33 @@ public class CollectionTrackEntryAdapter extends ArrayAdapter<Track> {
 		
 		HelperUtil.applyBackgroundColor(mContext, position, v);
 		applyOrHideTrackNumber(track, v);
-		
+
+		final ImageView appendTrackButton = (ImageView) v.findViewById(R.id.addToPlaylist);
 		TextView trackTitle = (TextView) v.findViewById(R.id.trackTitle);
 		trackTitle.setText(track.getTitle());
 		
 		applyOrHideTrackArtist(track, v, albumArtist);
-		
+
+		appendTrackButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				appendTrackToPlaylist(track);
+			}
+		});
+
 		return v;
 	}
-	
+
+	private void appendTrackToPlaylist(final Track track) {
+		HelperUtil.runInBackground(new Runnable() {
+			@Override
+			public void run() {
+				int index = collectionService.addTrackToPlaylist(track);
+				//playlistService.playTrackAtIndex(index); // TODO
+			}
+		});
+	}
+
 	private String findAlbumArtist(final Track track) {
 		String trackArtist = track.getArtist();
 

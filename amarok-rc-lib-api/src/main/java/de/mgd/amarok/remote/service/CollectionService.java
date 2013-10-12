@@ -35,5 +35,18 @@ public interface CollectionService {
 	 * @return
 	 */
 	List<Track> findTracksByAlbum(Album album);
-	
+
+	/**
+	 *
+	 * @param album
+	 * @return the index of the first track of the album in the playlist
+	 */
+	int addAlbumToPlaylist(Album album);
+
+	/**
+	 *
+	 * @param track
+	 * @return the index of the track in the playlist
+	 */
+	int addTrackToPlaylist(Track track);
 }

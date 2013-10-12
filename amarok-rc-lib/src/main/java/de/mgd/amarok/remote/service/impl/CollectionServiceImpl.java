@@ -95,4 +95,14 @@ public class CollectionServiceImpl extends AbstractRemoteService implements Coll
 		return remoteService.getResponseAsByteArray(host, port, "albumCoverForImageId/"+imageId);
 	}
 
+	@Override
+	public int addAlbumToPlaylist(final Album album) {
+		return remoteService.getResponseAsInt(host, port, "cmdCollectionAddAlbum/"+album.getId());
+	}
+
+	@Override
+	public int addTrackToPlaylist(final Track track) {
+		return remoteService.getResponseAsInt(host, port, "cmdCollectionAddTrack/"+track.getId());
+	}
+
 }

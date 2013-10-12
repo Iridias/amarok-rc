@@ -11,6 +11,7 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class RemoteInvokationServiceImplTest {
@@ -45,6 +46,7 @@ public class RemoteInvokationServiceImplTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testGetResponseAsStringForNoResponse() {
 		String result = service.getResponseAsString("localhost", 8484, "cmdPlayPause/");
 		assertNotNull(result);
