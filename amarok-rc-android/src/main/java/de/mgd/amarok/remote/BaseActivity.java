@@ -12,6 +12,9 @@ import android.view.MenuItem;
 
 public class BaseActivity extends Activity {
 
+	private enum Fragments { PLAYER, PLAYLIST, COLLECTION, SETTINGS };
+	private Fragments currentFragment = Fragments.PLAYER;
+
     /**
      * Called when the activity is first created.
      * @param savedInstanceState If the activity is being re-initialized after 
@@ -47,15 +50,29 @@ public class BaseActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	if(item.getItemId() == R.id.action_settings) {
-    		getFragmentManager().beginTransaction().replace(R.id.contentRoot, new SettingsFragment()).addToBackStack(null).commit();
+			currentFragment = Fragments.SETTINGS;
+    		getFragmentManager().beginTransaction().replace(R.id.contentRoot, new SettingsFragment()).commit();
     	} else if(item.getItemId() == R.id.action_playlist) {
-    		getFragmentManager().beginTransaction().replace(R.id.contentRoot, new PlaylistFragment()).addToBackStack(null).commit();
+			currentFragment = Fragments.PLAYLIST;
+    		getFragmentManager().beginTransaction().replace(R.id.contentRoot, new PlaylistFragment()).commit();
     	} else if(item.getItemId() == R.id.action_collection) {
-    		getFragmentManager().beginTransaction().replace(R.id.contentRoot, new CollectionFragment()).addToBackStack(null).commit();
+			currentFragment = Fragments.COLLECTION;
+    		getFragmentManager().beginTransaction().replace(R.id.contentRoot, new CollectionFragment()).commit();
     	}
     	
     	return super.onOptionsItemSelected(item);
     }
+
+	@Override
+	public void onBackPressed() {
+		if(currentFragment != Fragments.PLAYER) {
+			currentFragment = Fragments.PLAYER;
+			getFragmentManager().beginTransaction().replace(R.id.contentRoot, new PlayerFragment()).commit();
+			return;
+		}
+
+		finish();
+	}
     
 }
 
