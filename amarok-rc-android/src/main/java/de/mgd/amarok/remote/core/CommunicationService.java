@@ -28,7 +28,7 @@ public class CommunicationService extends Thread {
 	public void run() {
 		log.info("Started CommunicationService");
 		running = true;
-		while(true) { // TODO: need better condition
+		while(running) {
 			final PlayerState state = playerService.state();
 			if(state == null) { // assume missing connectivity
 				log.warn("Received playerState null - wait 5 seconds for retry...");
@@ -36,18 +36,12 @@ public class CommunicationService extends Thread {
 				continue;
 			}
 			
-			//log.info("updating short-term data...");
 			final long currentTrackPositionInMs = playerService.trackPositionMs();
-			//log.info("updating short-term data: fetched currentTrackPositionInMs");
 			AppEngine.setCurrentTrackPositionInMs(currentTrackPositionInMs);
-			//log.info("updating short-term data: apply state");
 			AppEngine.setPlayerState(state);
-			//log.info("updating short-term data: fetching currentVolume");
 			AppEngine.setCurrentVolume(playerService.currentVolume());
-			
-			//log.info("updating: check for update trackDetails");
+
 			if(isUpdateTrackDetails(currentTrackPositionInMs)) {
-				//log.info("updating long-term data...");
 				Track currentTrack = playerService.currentTrack();
 				AppEngine.setCurrentTrack(currentTrack);
 				
@@ -59,19 +53,20 @@ public class CommunicationService extends Thread {
 					AppEngine.setCurrentCover(AppEngine.getNoCover());
 				}
 			}
-			
-			//log.info("update done - sleeping");
-			
+
 			sleep();
 		}
-		
-		//running = false;
+
 	}
 	
 	public boolean isRunning() {
 		return running;
 	}
-	
+
+	public void requestStop() {
+		running = false;
+	}
+
 	private void sleep() {
 		sleepFor(1000);
 	}

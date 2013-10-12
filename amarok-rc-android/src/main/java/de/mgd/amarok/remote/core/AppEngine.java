@@ -39,12 +39,25 @@ public class AppEngine extends Application {
 		ServiceFactory.init();
 		
 		noCover = getResources().getDrawable(R.drawable.nocover);
-		
+
+		startBackgroundJobs();
+	}
+
+	public static void startBackgroundJobs() {
+		if(communicationService != null && communicationService.isRunning()) {
+			return;
+		}
+
 		communicationService = new CommunicationService();
 		communicationService.setPriority(Thread.MIN_PRIORITY);
 		communicationService.start();
 	}
-	
+
+	public static void stopBackgroundJobs() {
+		if(communicationService != null) {
+			communicationService.requestStop();
+		}
+	}
 
 	public static PlayerService.PlayerState getPlayerState() {
 		return playerState;

@@ -1,5 +1,6 @@
 package de.mgd.amarok.remote;
 
+import de.mgd.amarok.remote.core.AppEngine;
 import de.mgd.amarok.remote.fragments.CollectionFragment;
 import de.mgd.amarok.remote.fragments.PlayerFragment;
 import de.mgd.amarok.remote.fragments.PlaylistFragment;
@@ -31,7 +32,8 @@ public class BaseActivity extends Activity {
         }
         
         // FIXME: check if wifi is turned on
-        
+
+        AppEngine.startBackgroundJobs();
         PlayerFragment playerFragment = new PlayerFragment();
         TrackDetailsFragment trackDetailsFragment = new TrackDetailsFragment();
 
@@ -71,6 +73,7 @@ public class BaseActivity extends Activity {
 			return;
 		}
 
+		AppEngine.stopBackgroundJobs();
 		finish();
 	}
     
