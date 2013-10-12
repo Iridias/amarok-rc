@@ -58,7 +58,11 @@ public class CommunicationService extends Thread {
 		}
 
 	}
-	
+
+	public void setPlayerService(PlayerService playerService) {
+		this.playerService = playerService;
+	}
+
 	public boolean isRunning() {
 		return running;
 	}

@@ -32,7 +32,7 @@ public class AppEngine extends Application {
 	
 	private static AppEngine instance;
 	private static CommunicationService communicationService; 
-	
+
 	public void onCreate() {
 		log.info("Starting AppEngine...");
 		instance = this;
@@ -41,6 +41,11 @@ public class AppEngine extends Application {
 		noCover = getResources().getDrawable(R.drawable.nocover);
 
 		startBackgroundJobs();
+	}
+
+	public static void notifySettingsChanged() {
+		ServiceFactory.invalidate();
+		communicationService.setPlayerService(ServiceFactory.getPlayerService());
 	}
 
 	public static void startBackgroundJobs() {

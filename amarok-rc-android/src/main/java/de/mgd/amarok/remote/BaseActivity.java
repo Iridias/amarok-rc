@@ -40,7 +40,6 @@ public class BaseActivity extends Activity {
         getFragmentManager().beginTransaction().add(R.id.contentRoot, playerFragment).commit();
         //getFragmentManager().beginTransaction().add(R.id.contentRoot, trackDetailsFragment).commit();
     }
-    
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -28,7 +28,13 @@ public class ServiceFactory {
 	private static PlayerServiceImpl playerService;
 	private static PlaylistServiceImpl playlistService;
 	private static CollectionServiceImpl collectionService;
-	
+
+	public static void invalidate() {
+		playerService = null;
+		playlistService = null;
+		collectionService = null;
+	}
+
 	public static void init() {
 		if(remoteService != null) {
 			return; // already initialized
