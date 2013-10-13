@@ -5,4 +5,5 @@
 	<color name="playlistBackground">#DCD9D6</color>
 	<color name="white">#FFFFFF</color>
 	<color name="darkBlue">#0000C0</color>
+    <color name="darkGray">#666666</color>
 </resources>

@@ -12,6 +12,7 @@ import de.mgd.amarok.remote.model.Track;
 import de.mgd.amarok.remote.service.CollectionService;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class CollectionTrackEntryAdapter extends ArrayAdapter<Track> {
 	private Context mContext;
 	private List<Track> data = new ArrayList<Track>();
 	private CollectionService collectionService = ServiceFactory.getCollectionService();
+	private Handler handler = new Handler();
 	
 	public CollectionTrackEntryAdapter(Context context, int resource) {
 		super(context, resource);
@@ -68,22 +70,35 @@ public class CollectionTrackEntryAdapter extends ArrayAdapter<Track> {
 
 		appendTrackButton.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				appendTrackToPlaylist(track);
+			public void onClick(final View v) {
+				appendTrackToPlaylist(track, v);
 			}
 		});
 
 		return v;
 	}
 
-	private void appendTrackToPlaylist(final Track track) {
+	private void appendTrackToPlaylist(final Track track, final View v) {
 		HelperUtil.runInBackground(new Runnable() {
 			@Override
 			public void run() {
 				int index = collectionService.addTrackToPlaylist(track);
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						hideAppendButton(v);
+					}
+				});
 				//playlistService.playTrackAtIndex(index); // TODO
 			}
 		});
+	}
+
+	private void hideAppendButton(final View v) {
+		final ImageView appendTrackButton = (ImageView) v.findViewById(R.id.addToPlaylist);
+		if(appendTrackButton != null) {
+			appendTrackButton.setVisibility(View.INVISIBLE);
+		}
 	}
 
 	private String findAlbumArtist(final Track track) {

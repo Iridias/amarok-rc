@@ -43,11 +43,14 @@ public class PlayerFragment extends AbstractBaseFragment implements BaseFragment
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		if(activity == null || activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+		if(activity == null) {
+			view = inflater.inflate(R.layout.player_fragment, container, false);
+		} else if(activity.findViewById(R.id.fragment_container1) == null && activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 			view = inflater.inflate(R.layout.player_fragment_portrait, container, false);
 		} else {
 			view = inflater.inflate(R.layout.player_fragment, container, false);
 		}
+
 		registerListeners(view);
 		return view;
 	}

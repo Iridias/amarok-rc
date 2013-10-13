@@ -7,6 +7,7 @@ import de.mgd.amarok.remote.fragments.PlaylistFragment;
 import de.mgd.amarok.remote.fragments.SettingsFragment;
 import de.mgd.amarok.remote.fragments.TrackDetailsFragment;
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +15,7 @@ import android.view.MenuItem;
 public class BaseActivity extends Activity {
 
 	private enum Fragments { PLAYER, PLAYLIST, COLLECTION, SETTINGS };
-	private Fragments currentFragment = Fragments.PLAYER;
+	private static Fragments currentFragment = Fragments.PLAYER;
 
     /**
      * Called when the activity is first created.
@@ -25,7 +26,12 @@ public class BaseActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			setContentView(R.layout.activity_main_portrait);
+		} else {
+        	setContentView(R.layout.activity_main);
+		}
         
         if (savedInstanceState != null) {
             return;
@@ -35,9 +41,13 @@ public class BaseActivity extends Activity {
 
         AppEngine.startBackgroundJobs();
         PlayerFragment playerFragment = new PlayerFragment();
-        TrackDetailsFragment trackDetailsFragment = new TrackDetailsFragment();
 
-        getFragmentManager().beginTransaction().add(R.id.contentRoot, playerFragment).commit();
+		if(findViewById(R.id.fragment_container1) != null) {
+			getFragmentManager().beginTransaction().add(R.id.fragment_container1, playerFragment).commit();
+			getFragmentManager().beginTransaction().add(R.id.fragment_container2, new PlaylistFragment()).commit();
+		} else {
+        	getFragmentManager().beginTransaction().add(R.id.contentRoot, playerFragment).commit();
+		}
         //getFragmentManager().beginTransaction().add(R.id.contentRoot, trackDetailsFragment).commit();
     }
 
@@ -50,15 +60,20 @@ public class BaseActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+		int contentRoot = R.id.contentRoot;
+		if(findViewById(R.id.fragment_container1) != null) {
+			contentRoot = R.id.fragment_container2;
+		}
+
     	if(item.getItemId() == R.id.action_settings) {
 			currentFragment = Fragments.SETTINGS;
-    		getFragmentManager().beginTransaction().replace(R.id.contentRoot, new SettingsFragment()).commit();
+    		getFragmentManager().beginTransaction().replace(contentRoot, new SettingsFragment()).commit();
     	} else if(item.getItemId() == R.id.action_playlist) {
 			currentFragment = Fragments.PLAYLIST;
-    		getFragmentManager().beginTransaction().replace(R.id.contentRoot, new PlaylistFragment()).commit();
+    		getFragmentManager().beginTransaction().replace(contentRoot, new PlaylistFragment()).commit();
     	} else if(item.getItemId() == R.id.action_collection) {
 			currentFragment = Fragments.COLLECTION;
-    		getFragmentManager().beginTransaction().replace(R.id.contentRoot, new CollectionFragment()).commit();
+    		getFragmentManager().beginTransaction().replace(contentRoot, new CollectionFragment()).commit();
     	}
     	
     	return super.onOptionsItemSelected(item);
@@ -68,7 +83,11 @@ public class BaseActivity extends Activity {
 	public void onBackPressed() {
 		if(currentFragment != Fragments.PLAYER) {
 			currentFragment = Fragments.PLAYER;
-			getFragmentManager().beginTransaction().replace(R.id.contentRoot, new PlayerFragment()).commit();
+			if(findViewById(R.id.fragment_container1) != null) {
+				getFragmentManager().beginTransaction().replace(R.id.fragment_container2, new PlaylistFragment()).commit();
+			} else {
+				getFragmentManager().beginTransaction().replace(R.id.contentRoot, new PlayerFragment()).commit();
+			}
 			return;
 		}
 
