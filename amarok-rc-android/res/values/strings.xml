@@ -6,7 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="action_playlist">Playlist</string>
     <string name="action_collection">Collection</string>
-    <string name="hello_world">Hello world!</string>
 
     <string name="track_artist_prefix">By</string>
     <string name="track_album_prefix">On</string>

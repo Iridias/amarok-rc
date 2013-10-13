@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Amarok RC</string>
+    <string name="hello">amarok-remote-android!</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_playlist">Playlist</string>
+    <string name="action_collection">Sammlung</string>
+
+    <string name="track_artist_prefix">Von</string>
+    <string name="track_album_prefix">Auf</string>
+    
+    <string name="settings_remote_host">Entfernter Rechner</string>
+    <string name="settings_remote_port">Portnummer des Server</string>
+    
+    <string name="settings_remote_host_desc">Rechnername oder IP des Computers auf dem Amarok läuft</string>
+    <string name="settings_remote_port_desc">Portnummer des Servers den das Script gestartet hat, dass in Amarok läuft. (Auf voreingestelltem Wert belassen, wenn sie das Script nicht geändert haben)</string>
+    
+</resources>
