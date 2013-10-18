@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import de.mgd.amarok.remote.R;
+import de.mgd.amarok.remote.core.AppEngine;
 import de.mgd.amarok.remote.core.factory.ServiceFactory;
 import de.mgd.amarok.remote.core.util.HelperUtil;
 import de.mgd.amarok.remote.model.Track;
@@ -61,9 +62,13 @@ public class PlaylistEntryAdapter extends ArrayAdapter<Track> {
 		
 		final Track track = data.get(position);
 		final String albumArtist = findAlbumArtist(position, track);
-		
+
 		HelperUtil.applyBackgroundColor(mContext, position, v);
 		applyOrHideTrackNumber(track, v);
+
+		if(track.getIndexInPlaylist() == AppEngine.getCurrentTrack().getIndexInPlaylist()) {
+			v.setBackgroundColor(mContext.getResources().getColor(R.color.highlightBlue));
+		}
 		
 		TextView trackLength = (TextView) v.findViewById(R.id.trackEntryLength);
 		TextView trackTitle = (TextView) v.findViewById(R.id.trackTitle);

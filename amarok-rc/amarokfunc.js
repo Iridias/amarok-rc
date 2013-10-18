@@ -115,6 +115,16 @@ playerCurrentTrack = function(path) {
 	return response;
 }
 
+playlistMode = function(path) {
+	response = new HandlerResponse();
+	response.append(JSON.stringify({
+		randomMode: Amarok.Engine.randomMode,
+		repeatPlaylist: Amarok.Engine.repeatPlaylist,
+		repeatTrack: Amarok.Engine.repeatTrack
+	}));
+	return response;
+}
+
 playlistTotalTrackCount = function(path){
 	response = new HandlerResponse();
 	response.append(Amarok.Playlist.totalTrackCount().toString());
@@ -180,10 +190,28 @@ getPlaylist = function(path){
     return response;
 }
 
+cmdPlaylistMode = function(path) {
+	var mode = path.substring(path.lastIndexOf("/")+1);
+	
+	Amarok.Engine.randomMode = false;
+	Amarok.Engine.repeatPlaylist = false;
+	Amarok.Engine.repeatTrack = false;
+	
+	if(mode == "REPEAT_PLAYLIST") {
+		Amarok.Engine.repeatPlaylist = true;
+	} else if(mode == "REPEAT_TRACK") {
+		Amarok.Engine.repeatTrack = true;
+	} else if(mode == "RANDOM") {
+		Amarok.Engine.randomMode = true;
+	}
+	
+	return playlistMode(path);
+}
+
 cmdPlaylistClear = function(path){
     Amarok.Playlist.clearPlaylist();
     response = new HandlerResponse();
-    return response
+    return response;
 }
 
 cmdNext = function(path){

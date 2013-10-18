@@ -10,14 +10,17 @@ import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import de.mgd.amarok.remote.R;
 import de.mgd.amarok.remote.model.Track;
+import de.mgd.amarok.remote.service.AmarokService;
 import de.mgd.amarok.remote.service.PlayerService;
 import de.mgd.amarok.remote.service.PlayerService.PlayerState;
 import de.mgd.amarok.remote.core.factory.ServiceFactory;
+import de.mgd.amarok.remote.service.PlaylistService;
 
 public class AppEngine extends Application {
 
 	private static final Logger log = LoggerFactory.getLogger(AppEngine.class);
-	
+
+	private static int backendVersion = -1;
 	private static PlayerService.PlayerState playerState = PlayerState.STOPPED;
 	private static Track currentTrack;
 	private static long currentTrackPositionInMs = 0;
@@ -25,13 +28,14 @@ public class AppEngine extends Application {
 	private static Drawable noCover;
 	private static int currentVolume;
 	private static boolean isMuted = false;
+	private static PlaylistService.PlaylistMode playlistMode;
 	
 	private static final String SETTINGS = "AmarokRemoteSettings";
 	private static final String SETTING_REMOTE_HOST = "RemoteHost";
 	private static final String SETTING_REMOTE_PORT = "RemotePort";
 	
 	private static AppEngine instance;
-	private static CommunicationService communicationService; 
+	private static CommunicationService communicationService;
 
 	public void onCreate() {
 		log.info("Starting AppEngine...");
@@ -46,6 +50,8 @@ public class AppEngine extends Application {
 	public static void notifySettingsChanged() {
 		ServiceFactory.invalidate();
 		communicationService.setPlayerService(ServiceFactory.getPlayerService());
+		communicationService.setAmarokService(ServiceFactory.getAmarokService());
+		communicationService.setPlaylistService(ServiceFactory.getPlaylistService());
 	}
 
 	public static void startBackgroundJobs() {
@@ -125,5 +131,20 @@ public class AppEngine extends Application {
 	public static Drawable getNoCover() {
 		return noCover;
 	}
-	
+
+	public static PlaylistService.PlaylistMode getPlaylistMode() {
+		return playlistMode;
+	}
+
+	public static void setPlaylistMode(PlaylistService.PlaylistMode playlistMode) {
+		AppEngine.playlistMode = playlistMode;
+	}
+
+	public static int getBackendVersion() {
+		return backendVersion;
+	}
+
+	public static void setBackendVersion(int backendVersion) {
+		AppEngine.backendVersion = backendVersion;
+	}
 }

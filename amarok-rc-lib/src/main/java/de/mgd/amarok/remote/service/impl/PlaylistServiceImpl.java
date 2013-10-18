@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,6 +60,34 @@ public class PlaylistServiceImpl extends AbstractRemoteService implements Playli
 		}
 		
 		return remoteService.getResponseAsByteArray(host, port, "playlistCoverAt/"+index);
+	}
+
+	public PlaylistMode determinePlaylistMode() {
+		final String playlistMode = remoteService.getResponseAsString(host, port, "playlistMode/");
+		if(StringUtils.isBlank(playlistMode)) {
+			return PlaylistMode.NORMAL;
+		}
+
+		PlaylistMode mode = PlaylistMode.NORMAL;
+		try {
+			JSONObject plMode = new JSONObject(playlistMode);
+			if(plMode.optBoolean("randomMode")) {
+				mode = PlaylistMode.RANDOM;
+			} else if(plMode.optBoolean("repeatPlaylist")) {
+				mode = PlaylistMode.REPEAT_PLAYLIST;
+			} else if(plMode.optBoolean("repeatTrack")) {
+				mode = PlaylistMode.REPEAT_TRACK;
+			}
+		} catch (JSONException e) {
+			log.error("Unable to deserialize playlist-mode", e);
+		}
+
+		return mode;
+	}
+
+
+	public void changePlaylistMode(final PlaylistMode mode) {
+		remoteService.getResponseAsString(host, port, "cmdPlaylistMode/"+mode.name());
 	}
 
 }

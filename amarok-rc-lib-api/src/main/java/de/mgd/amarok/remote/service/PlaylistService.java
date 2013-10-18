@@ -6,6 +6,8 @@ import de.mgd.amarok.remote.model.Track;
 
 public interface PlaylistService {
 
+	public static enum PlaylistMode { NORMAL, REPEAT_PLAYLIST, REPEAT_TRACK, RANDOM };
+
 	/**
 	 * 
 	 */
@@ -29,5 +31,17 @@ public interface PlaylistService {
 	 * @return
 	 */
 	byte[] coverAtIndex(int index);
-	
+
+	/**
+	 *
+	 * @return
+	 */
+	PlaylistMode determinePlaylistMode();
+
+	/**
+	 *
+	 * @param mode
+	 */
+	void changePlaylistMode(PlaylistMode mode);
+
 }

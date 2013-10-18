@@ -73,5 +73,6 @@ http.registerHandler("/albumCoverForImageId/", albumCoverForImageId);
 http.registerHandler("/collectionTracksByAlbumId/", collectionTracksByAlbumId);
 http.registerHandler("/cmdCollectionAddAlbum/", cmdCollectionAddAlbum);
 http.registerHandler("/cmdCollectionAddTrack/", cmdCollectionAddTrack);
-
+http.registerHandler("/cmdPlaylistMode/", cmdPlaylistMode);
+http.registerHandler("/playlistMode/", playlistMode);
 

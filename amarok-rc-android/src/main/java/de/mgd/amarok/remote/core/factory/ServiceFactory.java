@@ -8,9 +8,11 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
 
+import de.mgd.amarok.remote.service.AmarokService;
 import de.mgd.amarok.remote.service.CollectionService;
 import de.mgd.amarok.remote.service.PlayerService;
 import de.mgd.amarok.remote.service.PlaylistService;
+import de.mgd.amarok.remote.service.impl.AmarokServiceImpl;
 import de.mgd.amarok.remote.service.impl.CollectionServiceImpl;
 import de.mgd.amarok.remote.service.impl.PlayerServiceImpl;
 import de.mgd.amarok.remote.service.impl.PlaylistServiceImpl;
@@ -28,11 +30,13 @@ public class ServiceFactory {
 	private static PlayerServiceImpl playerService;
 	private static PlaylistServiceImpl playlistService;
 	private static CollectionServiceImpl collectionService;
+	private static AmarokServiceImpl amarokService;
 
 	public static void invalidate() {
 		playerService = null;
 		playlistService = null;
 		collectionService = null;
+		amarokService = null;
 	}
 
 	public static void init() {
@@ -49,7 +53,21 @@ public class ServiceFactory {
 		remoteService = new RemoteInvokationServiceImpl();
 		remoteService.setClientConnectionManager(ccm);
 	}
-	
+
+	public static AmarokService getAmarokService() {
+		if(amarokService != null) {
+			return amarokService;
+		}
+
+		amarokService = new AmarokServiceImpl();
+		amarokService.setHelperService(helperService);
+		amarokService.setRemoteService(remoteService);
+		amarokService.setHost(AppEngine.remoteHost());
+		amarokService.setPort(AppEngine.remotePort());
+
+		return amarokService;
+	}
+
 	public static PlayerService getPlayerService() {
 		if(playerService != null) {
 			return playerService;

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/playlistEntryList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
+        ></ListView>
+
+    <LinearLayout
+        android:id="@+id/playlistControls"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/backgroundBlue"
+        android:layout_weight="1">
+
+        <ImageView
+                android:id="@+id/clearPlaylist"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:scaleType="fitXY"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/clear_playlist" >
+        </ImageView>
+        <ImageView
+                android:id="@+id/repeatPlaylist"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:padding="3dp"
+                android:scaleType="fitXY"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/playlist_repeat" >
+        </ImageView>
+        <ImageView
+                android:id="@+id/repeatTrack"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:padding="3dp"
+                android:scaleType="fitXY"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/playlist_repeat_track" >
+        </ImageView>
+        <ImageView
+                android:id="@+id/randomMode"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:padding="3dp"
+                android:scaleType="fitXY"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/playlist_random_mode" >
+        </ImageView>
+    </LinearLayout>
+
+</LinearLayout>

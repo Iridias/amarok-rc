@@ -166,29 +166,7 @@ public class PlayerFragment extends AbstractBaseFragment implements BaseFragment
 			}
 		});
 	}
-	
-	private void runInBackgroundAfterAnimation(final View v, final Runnable r) {
-		Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.buttonpress);
-		anim.setAnimationListener(new ButtonPressAnimationBackgroundRunner(r));
-		v.startAnimation(anim);
-	}
-	
-	static class ButtonPressAnimationBackgroundRunner implements AnimationListener  {
-		private Runnable r = null;
-		
-		public ButtonPressAnimationBackgroundRunner(final Runnable r) {
-			this.r = r;
-		}
-		
-		public void onAnimationEnd(Animation animation) {
-			HelperUtil.runInBackground(r);
-		}
 
-		public void onAnimationRepeat(Animation animation) { }
-
-		public void onAnimationStart(Animation animation) { }
-	}
-	
 	public void updateStatus() {
 		if(view == null || AppEngine.getCurrentTrack() == null || isUpdateNecessary() == false) {
 			return;

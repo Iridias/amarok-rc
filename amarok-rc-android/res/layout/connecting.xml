@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:id="@+id/connectingRoot"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+            android:id="@+id/infoHeader"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/backgroundBlue"
+            android:layout_margin="5dp">
+
+        <ImageView
+                android:id="@+id/infoIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:scaleType="fitXY"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/info" >
+        </ImageView>
+
+        <TextView
+                android:id="@+id/infoHeaderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/connecting"
+                android:textStyle="bold"
+                android:textSize="30sp" >
+        </TextView>
+
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/infoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/darkBlue"
+            android:text="@string/connecting_msg"
+            android:textStyle="bold"
+            android:textSize="30sp" >
+    </TextView>
+
+    <TextView
+            android:id="@+id/infoTextServer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/darkBlue"
+            android:text="server"
+            android:textStyle="bold"
+            android:textSize="30sp" >
+    </TextView>
+
+    <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="335dp"
+            android:layout_height="223dp"
+            android:id="@+id/progressBar"
+            android:layout_gravity="center"/>
+
+
+</LinearLayout>

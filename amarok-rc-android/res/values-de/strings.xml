@@ -15,5 +15,8 @@
     
     <string name="settings_remote_host_desc">Rechnername oder IP des Computers auf dem Amarok läuft</string>
     <string name="settings_remote_port_desc">Portnummer des Servers den das Script gestartet hat, dass in Amarok läuft. (Auf voreingestelltem Wert belassen, wenn sie das Script nicht geändert haben)</string>
-    
+
+    <string name="error">Error!</string>
+    <string name="error_msg_backend_version">Die Version des Scripts, das in Amarok läuft, ist zu alt! Bitte das Script updaten (erfordert Neustart von Amarok).</string>
+
 </resources>

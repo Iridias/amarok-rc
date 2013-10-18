@@ -9,8 +9,10 @@ import android.graphics.drawable.Drawable;
 
 import de.mgd.amarok.remote.core.factory.ServiceFactory;
 import de.mgd.amarok.remote.model.Track;
+import de.mgd.amarok.remote.service.AmarokService;
 import de.mgd.amarok.remote.service.PlayerService;
 import de.mgd.amarok.remote.service.PlayerService.PlayerState;
+import de.mgd.amarok.remote.service.PlaylistService;
 
 public class CommunicationService extends Thread {
 
@@ -18,17 +20,27 @@ public class CommunicationService extends Thread {
 	
 	private boolean running = false;
 	private PlayerService playerService;
+	private PlaylistService playlistService;
+	private AmarokService amarokService;
 	private long lastTrackPositionInMs = Long.MAX_VALUE;
 	
 	public CommunicationService() {
 		playerService = ServiceFactory.getPlayerService();
+		playlistService = ServiceFactory.getPlaylistService();
+		amarokService = ServiceFactory.getAmarokService();
 	}
-	
+
+
+
 	@Override
 	public void run() {
 		log.info("Started CommunicationService");
 		running = true;
 		while(running) {
+			if(AppEngine.getBackendVersion() <= 0) {
+				AppEngine.setBackendVersion(amarokService.serverVersion());
+			}
+
 			final PlayerState state = playerService.state();
 			if(state == null) { // assume missing connectivity
 				log.warn("Received playerState null - wait 5 seconds for retry...");
@@ -44,7 +56,8 @@ public class CommunicationService extends Thread {
 			if(isUpdateTrackDetails(currentTrackPositionInMs)) {
 				Track currentTrack = playerService.currentTrack();
 				AppEngine.setCurrentTrack(currentTrack);
-				
+				AppEngine.setPlaylistMode(playlistService.determinePlaylistMode());
+
 				byte[] coverBytes = playerService.currentCover();
 				if(coverBytes != null && coverBytes.length > 10) {
 					ByteArrayInputStream byis = new ByteArrayInputStream(coverBytes);
@@ -61,6 +74,14 @@ public class CommunicationService extends Thread {
 
 	public void setPlayerService(PlayerService playerService) {
 		this.playerService = playerService;
+	}
+
+	public void setAmarokService(AmarokService amarokService) {
+		this.amarokService = amarokService;
+	}
+
+	public void setPlaylistService(PlaylistService playlistService) {
+		this.playlistService = playlistService;
 	}
 
 	public boolean isRunning() {

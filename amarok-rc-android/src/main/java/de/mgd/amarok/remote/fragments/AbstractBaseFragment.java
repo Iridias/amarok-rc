@@ -9,6 +9,11 @@ import org.slf4j.LoggerFactory;
 import android.app.Fragment;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
+import de.mgd.amarok.remote.R;
+import de.mgd.amarok.remote.core.util.HelperUtil;
 
 public abstract class AbstractBaseFragment extends Fragment {
 
@@ -55,4 +60,27 @@ public abstract class AbstractBaseFragment extends Fragment {
 	}
 	
 	public abstract void updateStatus();
+
+
+	protected void runInBackgroundAfterAnimation(final View v, final Runnable r) {
+		Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.buttonpress);
+		anim.setAnimationListener(new ButtonPressAnimationBackgroundRunner(r));
+		v.startAnimation(anim);
+	}
+
+	static class ButtonPressAnimationBackgroundRunner implements Animation.AnimationListener {
+		private Runnable r = null;
+
+		public ButtonPressAnimationBackgroundRunner(final Runnable r) {
+			this.r = r;
+		}
+
+		public void onAnimationEnd(Animation animation) {
+			HelperUtil.runInBackground(r);
+		}
+
+		public void onAnimationRepeat(Animation animation) { }
+
+		public void onAnimationStart(Animation animation) { }
+	}
 }

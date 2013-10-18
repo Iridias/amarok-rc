@@ -6,4 +6,8 @@
 	<color name="white">#FFFFFF</color>
 	<color name="darkBlue">#0000C0</color>
     <color name="darkGray">#666666</color>
+    <color name="backgroundBlue">#95C8E6</color>
+    <color name="highlightBlue">#43ACE8</color>
+    <color name="pastelRed">#FFA7A7</color>
+    <color name="darkRed">#AB0000</color>
 </resources>
