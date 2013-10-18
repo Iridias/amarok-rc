@@ -10,13 +10,13 @@
 	<groupId>de.mgd</groupId>
 	<artifactId>amarok-rc-lib</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.2-SNAPSHOT</version>
 	
 	<dependencies>
 		<dependency>
 			<groupId>de.mgd</groupId>
 			<artifactId>amarok-rc-lib-api</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
