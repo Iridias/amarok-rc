@@ -1,0 +1,10 @@
+ 
+.classpath
+.project
+.settings
+.settings/
+target/
+*.iml
+/amarok-rc-android/gen/
+/amarok-rc-android/bin/
+.idea/
