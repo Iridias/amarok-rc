@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.mgd.amarok.remote.R;
 import de.mgd.amarok.remote.core.factory.ServiceFactory;
@@ -21,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class CollectionTrackEntryAdapter extends ArrayAdapter<Track> {
+
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private Context mContext;
 	private List<Track> data = new ArrayList<Track>();
@@ -83,6 +87,10 @@ public class CollectionTrackEntryAdapter extends ArrayAdapter<Track> {
 			@Override
 			public void run() {
 				int index = collectionService.addTrackToPlaylist(track);
+				if(index < 0) {
+					log.warn("returned index for the appended track is {} - it seems the call to Amarok has failed!", index);
+					return;
+				}
 				handler.post(new Runnable() {
 					@Override
 					public void run() {

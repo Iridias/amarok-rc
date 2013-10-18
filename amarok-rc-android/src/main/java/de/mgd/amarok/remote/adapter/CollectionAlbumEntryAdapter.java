@@ -65,7 +65,7 @@ public class CollectionAlbumEntryAdapter extends ArrayAdapter<Album> {
 		appendAlbumButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				appendAlbumToPlaylist(album);
+				appendAlbumToPlaylist(album, v);
 			}
 		});
 
@@ -79,14 +79,31 @@ public class CollectionAlbumEntryAdapter extends ArrayAdapter<Album> {
 		return v;
 	}
 
-	private void appendAlbumToPlaylist(final Album album) {
+	private void appendAlbumToPlaylist(final Album album, final View v) {
 		HelperUtil.runInBackground(new Runnable() {
 			@Override
 			public void run() {
 				int index = collectionService.addAlbumToPlaylist(album);
+				if(index < 0) {
+					log.warn("returned index for first track of appended album is {} - it seems the call to Amarok has failed!", index);
+					return;
+				}
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						hideAppendButton(v);
+					}
+				});
 				//playlistService.playTrackAtIndex(index); // TODO
 			}
 		});
+	}
+
+	private void hideAppendButton(final View v) {
+		final ImageView appendTrackButton = (ImageView) v.findViewById(R.id.addToPlaylist);
+		if(appendTrackButton != null) {
+			appendTrackButton.setVisibility(View.INVISIBLE);
+		}
 	}
 
 	private void applyCoverImage(final ImageView cover, final Album album) {
