@@ -35,14 +35,14 @@ public class RemoteInvokationServiceImplTest {
 	public void testGetResponseAsString() {
 		String result = service.getResponseAsString("localhost", 8484, "getServerVersion/");
 		assertNotNull(result);
-		assertEquals("5", result);
+		assertEquals("6", result);
 	}
 	
 	@Test
 	public void testGetResponseAsLong() {
 		long result = service.getResponseAsLong("localhost", 8484, "getServerVersion/");
 		assertNotNull(result);
-		assertEquals(5, result);
+		assertEquals(6, result);
 	}
 	
 	@Test

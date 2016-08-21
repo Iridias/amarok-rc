@@ -287,10 +287,15 @@ cmdSetPosition = function(path){
 
 collectionsArtists = function(path) {
 	response = new HandlerResponse();
-	artistResult = Amarok.Collection.query("SELECT name, id FROM artists ORDER BY name;");
+	artistResult = Amarok.Collection.query("SELECT name, id FROM artists where id in (select artist from albums) ORDER BY name;");
 	var artistList = new Array();
 	
-	var index = 0;
+        artistList[0] = {
+                id: 0,
+                name: "Verschiedene Interpreten"
+        }
+        
+	var index = 1;
 	for(artistidx=0; artistidx<artistResult.length; artistidx++){	
 		var artist = artistResult[artistidx++];
 		var artistId = artistResult[artistidx];
@@ -330,35 +335,25 @@ getCollectionAllArtists = function(path){
 
 collectionAlbumsByArtistId = function(path) {
 	artistId = parseInt(path.substring(path.lastIndexOf("/")+1));
-	//dbVersion = Amarok.Collection.query('select version from admin where component = "DB_VERSION"');
 	
-	var query = "select distinct case when a.name is null or a.name = '' then 'Unknown Album' else a.name end, " +
-			" a.id , " +
-			"case when a.image is null or a.image = '' then -1 else a.image end, " +
-			"count(*) " +
-			"from tracks t left join albums a on a.id = t.album " +
-			"where t.artist = "+artistId+" group by 1,2,3 order by a.name";
-	
-	/*
-	if(dbVersion >= 14) { // TODO: what about the junction-tables??
-		query = "";
-	}
-	*/
+        var query = "select name, id, " +
+                    "case when image is null or image = '' then -1 else image end " +
+                    "from albums where " + (artistId == 0 ? "artist is null" : "artist = " + artistId) + " order by name";
+
 	var albumList = new Array();
 	var index = 0;
 	var result = Amarok.Collection.query(query);
 	for(cursor=0; cursor<result.length; cursor++) {
 		var albumName = result[cursor++];
 		var albumId = result[cursor++];
-		var imageId = result[cursor++];
-		var trackCount = result[cursor];
-		
+		var imageId = result[cursor];
+                
 		if(albumName != null && albumName !== undefined) {
 			albumList[index] = {
 				id: albumId,
 				name: albumName,
 				image: imageId,
-				tracks: trackCount
+				tracks: 0
 			};
 			index++;
 		}
@@ -370,6 +365,10 @@ collectionAlbumsByArtistId = function(path) {
 	return response;
 }
 
+collectionSearch = function(path) {
+        searchString = decodeURIComponent(path.substring(path.lastIndexOf("/")+1));
+        
+}
 
 albumCoverForImageId = function(path){
 	imageId = parseInt(path.substring(path.lastIndexOf("/")+1));
@@ -386,17 +385,11 @@ albumCoverForImageId = function(path){
 
 collectionTracksByAlbumId = function(path) {
 	albumId = parseInt(path.substring(path.lastIndexOf("/")+1));
-	//dbVersion = Amarok.Collection.query('select version from admin where component = "DB_VERSION"');
 	
 	var query = "select t.id, t.title, a.id, a.name, t.tracknumber, t.length " +
 			"from tracks t left join artists a on a.id = t.artist " +
 			"where t.album = "+albumId+" order by t.discnumber, t.tracknumber, t.title";
-	
-	/*
-	if(dbVersion >= 14) { // TODO: what about the junction-tables??
-		query = "";
-	}
-	*/
+
 	return collectionsTracksInternal(query);
 }
 

@@ -14,8 +14,8 @@
 		
 		<ImageView
 			android:id="@+id/albumCover"
-			android:layout_width="30dp"
-			android:layout_height="25dp"
+			android:layout_width="40dp"
+			android:layout_height="35dp"
 			android:layout_margin="3dp"
 			android:scaleType="fitXY"
 			android:layout_gravity="center_vertical"
@@ -27,7 +27,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="left|center_vertical"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="50dp"
             android:layout_marginRight="40dp"
 			android:text="album title"
 			android:textStyle="bold"
@@ -36,8 +36,8 @@
 
         <ImageView
                 android:id="@+id/addToPlaylist"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_margin="3dp"
                 android:scaleType="fitXY"
                 android:layout_gravity="right|center_vertical"

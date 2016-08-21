@@ -115,6 +115,7 @@ public class BaseActivity extends Activity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 		if(connectivity && validBackend) {
+			menu.clear();
 			getMenuInflater().inflate(de.mgd.amarok.remote.R.menu.main, menu);
 		} else {
 			getMenuInflater().inflate(R.menu.loading_menu, menu);

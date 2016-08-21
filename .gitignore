@@ -5,6 +5,7 @@
 .settings/
 target/
 *.iml
+gen/
 /amarok-rc-android/gen/
 /amarok-rc-android/bin/
 .idea/
