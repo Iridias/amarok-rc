@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.mgd</groupId>
 	<artifactId>amarok-rc-android</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>2.0.1-SNAPSHOT</version>
 	<packaging>apk</packaging>
 	<name>Amarok RC</name>
 
@@ -141,7 +141,7 @@
                         <artifactId>android-maven-plugin</artifactId>
                         <inherited>true</inherited>
                         <configuration>
-                            <release>false</release>
+                            <release>true</release>
                             <sign>
                                 <debug>false</debug>
                             </sign>
@@ -151,6 +151,7 @@
                                 <inputApk>${project.build.directory}/${project.artifactId}.apk</inputApk>
                                 <outputApk>${project.build.directory}/${project.artifactId}-signed-aligned.apk</outputApk>
                             </zipalign>
+                            <apkDebug>false</apkDebug>
                         </configuration>
                         <executions>
                             <execution>
