@@ -24,9 +24,8 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
-import de.mgd.amarok.remote.R;
+import de.mgd.amarok.R;
 import de.mgd.amarok.remote.model.Track;
-import de.mgd.amarok.remote.service.AmarokService;
 import de.mgd.amarok.remote.service.PlayerService;
 import de.mgd.amarok.remote.service.PlayerService.PlayerState;
 import de.mgd.amarok.remote.core.factory.ServiceFactory;
@@ -54,10 +53,11 @@ public class AppEngine extends Application {
 	private static CommunicationService communicationService;
 
 	public void onCreate() {
+		super.onCreate();
 		log.info("Starting AppEngine...");
 		instance = this;
 		ServiceFactory.init();
-		
+
 		noCover = getResources().getDrawable(R.drawable.nocover);
 
 		startBackgroundJobs();

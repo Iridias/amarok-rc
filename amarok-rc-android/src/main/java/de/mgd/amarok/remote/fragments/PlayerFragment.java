@@ -16,7 +16,7 @@
 */
 package de.mgd.amarok.remote.fragments;
 
-import de.mgd.amarok.remote.R;
+import de.mgd.amarok.R;
 import de.mgd.amarok.remote.model.Track;
 import de.mgd.amarok.remote.service.PlayerService;
 import de.mgd.amarok.remote.service.PlayerService.PlayerState;

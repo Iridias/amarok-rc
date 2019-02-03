@@ -18,19 +18,14 @@ package de.mgd.amarok.remote.service.internal.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,83 +33,96 @@ import de.mgd.amarok.remote.service.internal.RemoteInvokationService;
 
 public class RemoteInvokationServiceImpl implements RemoteInvokationService {
 
-	private final static Logger log = LoggerFactory.getLogger(RemoteInvokationServiceImpl.class);
-	
-	private ClientConnectionManager ccm;
-	
+	private static final Logger log = LoggerFactory.getLogger(RemoteInvokationServiceImpl.class);
+
+	private static final String DEFAULT_PROTOCOL = "http";
+
+	private ContentFetcher<String> stringContentFetcher = new StringContentFetcher();
+	private ContentFetcher<byte[]> byteArrayContentFetcher = new ByteArrayContentFetcher();
+
 	@Override
 	public String getResponseAsString(final String host, final int port, final String path) {
-		return getResponseAsStringInternal(host, port, path);
+		return getResponseInternal(host, port, path, stringContentFetcher);
 	}
 
 	@Override
 	public int getResponseAsInt(final String host, final int port, final String path) {
-		final String result = getResponseAsStringInternal(host, port, path);
+		final String result = getResponseInternal(host, port, path, stringContentFetcher);
 		
 		return NumberUtils.toInt(result, -1);
 	}
 	
 	@Override
 	public long getResponseAsLong(String host, int port, String path) {
-		final String result = getResponseAsStringInternal(host, port, path);
+		final String result = getResponseInternal(host, port, path, stringContentFetcher);
 		
 		return NumberUtils.toLong(result, -1);
 	}
 
 	@Override
 	public byte[] getResponseAsByteArray(final String host, final int port, final String path) {
+		return getResponseInternal(host, port, path, byteArrayContentFetcher);
+	}
+	
+	private <T> T getResponseInternal(final String host, final int port, final String path, final ContentFetcher<T> contentFetcher) {
 		InputStream result = null;
+		URLConnection urlConnection = null;
 		try {
-			result = getResponseInternal(host, port, path);
-			return IOUtils.toByteArray(result);
-		} catch (IllegalStateException e) {
-			log.error("Unable to get response", e);
-		} catch (URISyntaxException e) {
+			urlConnection = openURLConnection(host, port, path);
+			result = urlConnection.getInputStream();
+			return contentFetcher.fetchContent(result);
+		} catch (Exception e) {
 			log.error("Unable to get response!", e);
-		} catch (IOException e) {
-			log.error("Unable to get response!!", e);
 		} finally {
 			IOUtils.closeQuietly(result);
+			closeURLConnection(urlConnection);
 		}
 		
 		return null;
 	}
-	
-	private String getResponseAsStringInternal(final String host, final int port, final String path) {
-		InputStream result = null;
-		try {
-			result = getResponseInternal(host, port, path);
-			return IOUtils.toString(result);
-		} catch (IllegalStateException e) {
-			log.error("Unable to get response", e);
-		} catch (URISyntaxException e) {
-			log.error("Unable to get response!", e);
-		} catch (IOException e) {
-			log.error("Unable to get response!!", e);
-		} finally {
-			IOUtils.closeQuietly(result);
-		}
-		
-		return null;
+
+
+	private interface ContentFetcher<T> {
+		T fetchContent(InputStream stream) throws IOException;
 	}
-	
-	private InputStream getResponseInternal(final String host, final int port, final String path) throws URISyntaxException, IllegalStateException, IOException {
+
+	private class StringContentFetcher implements ContentFetcher<String> {
+		@Override
+		public String fetchContent(final InputStream stream) throws IOException {
+			return IOUtils.toString(stream);
+		}
+	}
+
+	private class ByteArrayContentFetcher implements ContentFetcher<byte[]> {
+		@Override
+		public byte[] fetchContent(final InputStream stream) throws IOException {
+			return IOUtils.toByteArray(stream);
+		}
+	}
+
+	private void closeURLConnection(final URLConnection urlConnection) {
+		if(urlConnection instanceof HttpURLConnection) {
+			((HttpURLConnection)urlConnection).disconnect();
+		}
+	}
+
+	private URLConnection openURLConnection(final String host, final int port, final String path) throws IOException {
+		URL url = createURL(host, port, path);
+		return url.openConnection();
+	}
+
+	private URL createURL(final String host, final int port, final String path) throws MalformedURLException {
+		String protocol = determineProtocol(host);
 		final String fixedPath = (StringUtils.startsWith(path, "/") ? path : "/"+path);
 
-		HttpClient httpclient = new DefaultHttpClient(ccm, new BasicHttpParams());
-		URI uri = new URI("http", null, host, port, fixedPath, null, null);
-		HttpGet httpget = new HttpGet(uri);
-		HttpResponse response = httpclient.execute(httpget);
-		HttpEntity entity = response.getEntity();
-		if(entity == null) { // TODO
-			return null;
-		}
-		
-		return entity.getContent();
+		return new URL(protocol, host, port, fixedPath);
 	}
 
-	public void setClientConnectionManager(ClientConnectionManager ccm) {
-		this.ccm = ccm;
+	private String determineProtocol(final String host) {
+		if(StringUtils.contains(host, "://")) {
+			return StringUtils.substringBefore(host, "://");
+		}
+		return DEFAULT_PROTOCOL;
 	}
-	
+
 }

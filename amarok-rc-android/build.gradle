@@ -1,0 +1,46 @@
+apply plugin: 'com.android.application'
+
+group = 'de.mgd'
+version = '2.0.2-SNAPSHOT'
+
+description = """Amarok RC"""
+
+dependencies {
+    implementation 'org.slf4j:slf4j-android:1.6.1-RC1'
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation(project(':amarok-rc-lib')){
+        exclude(group: 'org.slf4j')
+        exclude(group: 'org.json')
+        exclude(module: 'httpclient')
+    }
+    implementation(project(':amarok-rc-lib-api')){
+        exclude(group: 'org.slf4j')
+        exclude(group: 'org.json')
+    }
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "28.0.3"
+
+    defaultConfig {
+        applicationId 'de.mgd.amarok.remote'
+        minSdkVersion 14
+        targetSdkVersion 26
+        versionCode 4
+        versionName '2.0.2'
+    }
+
+    lintOptions {
+        abortOnError false
+        ignore 'MissingTranslation'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}

@@ -28,7 +28,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import de.mgd.amarok.remote.R;
+import de.mgd.amarok.R;
 import de.mgd.amarok.remote.core.util.HelperUtil;
 
 public abstract class AbstractBaseFragment extends Fragment {

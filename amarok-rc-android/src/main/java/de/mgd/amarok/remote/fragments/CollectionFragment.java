@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.mgd.amarok.remote.R;
+import de.mgd.amarok.R;
 import de.mgd.amarok.remote.adapter.CollectionAlbumEntryAdapter;
 import de.mgd.amarok.remote.adapter.CollectionArtistEntryAdapter;
 import de.mgd.amarok.remote.adapter.CollectionTrackEntryAdapter;

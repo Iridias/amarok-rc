@@ -1,0 +1,37 @@
+apply plugin: 'com.android.library'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    implementation 'org.slf4j:slf4j-android:1.6.1-RC1'
+    implementation(project(':amarok-rc-lib-api'))
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation 'commons-io:commons-io:2.4'
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "28.0.3"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 26
+        versionCode 4
+        versionName '2.0.1'
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+}

@@ -22,7 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import de.mgd.amarok.remote.R;
+import de.mgd.amarok.R;
 
 
 public class ErrorFragment extends Fragment {

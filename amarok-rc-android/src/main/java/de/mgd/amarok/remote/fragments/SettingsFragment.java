@@ -16,7 +16,7 @@
 */
 package de.mgd.amarok.remote.fragments;
 
-import de.mgd.amarok.remote.R;
+import de.mgd.amarok.R;
 import de.mgd.amarok.remote.core.AppEngine;
 import de.mgd.amarok.remote.core.factory.ServiceFactory;
 

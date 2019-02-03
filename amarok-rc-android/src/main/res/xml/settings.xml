@@ -21,7 +21,7 @@
 		android:key="RemoteHost"
 		android:title="@string/settings_remote_host"
 		android:summary="@string/settings_remote_host_desc"
-        android:defaultValue="">
+        android:defaultValue="localhost">
 	</EditTextPreference>
 	
 	<EditTextPreference 

@@ -31,6 +31,8 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import de.mgd.amarok.R;
+
 public class BaseActivity extends Activity {
 
 	private enum Fragments { LOADING, ERROR, PLAYER, PLAYLIST, COLLECTION, SETTINGS };
@@ -132,7 +134,7 @@ public class BaseActivity extends Activity {
     public boolean onPrepareOptionsMenu(Menu menu) {
 		if(connectivity && validBackend) {
 			menu.clear();
-			getMenuInflater().inflate(de.mgd.amarok.remote.R.menu.main, menu);
+			getMenuInflater().inflate(R.menu.main, menu);
 		} else {
 			getMenuInflater().inflate(R.menu.loading_menu, menu);
 		}

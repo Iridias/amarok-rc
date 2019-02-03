@@ -18,7 +18,7 @@ package de.mgd.amarok.remote.fragments;
 
 import java.util.List;
 
-import de.mgd.amarok.remote.R;
+import de.mgd.amarok.R;
 import de.mgd.amarok.remote.adapter.PlaylistEntryAdapter;
 import de.mgd.amarok.remote.core.AppEngine;
 import de.mgd.amarok.remote.core.factory.ServiceFactory;

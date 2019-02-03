@@ -1,0 +1,3 @@
+include ':amarok-rc-lib-api'
+include ':amarok-rc-lib'
+include ':amarok-rc-android'

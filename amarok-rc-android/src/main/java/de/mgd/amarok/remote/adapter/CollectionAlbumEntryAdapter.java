@@ -23,7 +23,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.mgd.amarok.remote.R;
+import de.mgd.amarok.R;
 import de.mgd.amarok.remote.core.AppEngine;
 import de.mgd.amarok.remote.core.factory.ServiceFactory;
 import de.mgd.amarok.remote.core.util.HelperUtil;

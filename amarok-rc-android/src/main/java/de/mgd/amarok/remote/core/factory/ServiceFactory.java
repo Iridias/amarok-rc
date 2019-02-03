@@ -16,14 +16,6 @@
 */
 package de.mgd.amarok.remote.core.factory;
 
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-
 import de.mgd.amarok.remote.service.AmarokService;
 import de.mgd.amarok.remote.service.CollectionService;
 import de.mgd.amarok.remote.service.PlayerService;
@@ -41,8 +33,7 @@ public class ServiceFactory {
 
 	private static HelperService helperService;
 	private static RemoteInvokationServiceImpl remoteService;
-	private static ClientConnectionManager ccm;
-	
+
 	private static PlayerServiceImpl playerService;
 	private static PlaylistServiceImpl playlistService;
 	private static CollectionServiceImpl collectionService;
@@ -59,15 +50,8 @@ public class ServiceFactory {
 		if(remoteService != null) {
 			return; // already initialized
 		}
-		SchemeRegistry schemeRegistry = new SchemeRegistry();
-		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-		schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
-		
 		helperService = new HelperServiceImpl();
-		ccm = new ThreadSafeClientConnManager(new BasicHttpParams(), schemeRegistry);
-		
 		remoteService = new RemoteInvokationServiceImpl();
-		remoteService.setClientConnectionManager(ccm);
 	}
 
 	public static AmarokService getAmarokService() {

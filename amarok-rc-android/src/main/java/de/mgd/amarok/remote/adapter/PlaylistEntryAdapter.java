@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.mgd.amarok.remote.R;
+import de.mgd.amarok.R;
 import de.mgd.amarok.remote.core.AppEngine;
 import de.mgd.amarok.remote.core.factory.ServiceFactory;
 import de.mgd.amarok.remote.core.util.HelperUtil;

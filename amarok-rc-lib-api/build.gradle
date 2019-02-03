@@ -1,0 +1,31 @@
+apply plugin: 'com.android.library'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "28.0.3"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 26
+        versionCode 4
+        versionName '2.0.1'
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+
+}

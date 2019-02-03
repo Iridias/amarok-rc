@@ -16,7 +16,7 @@
 */
 package de.mgd.amarok.remote.core.util;
 
-import de.mgd.amarok.remote.R;
+import de.mgd.amarok.R;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
